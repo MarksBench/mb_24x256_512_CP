@@ -2,9 +2,9 @@
 Very simple CircuitPython module/driver for Microchip 24x256 and 24x512 I2C EEPROM devices. Works with RP2040 (tested on Raspberry Pi Pico), should run on other microcontrollers that have hardware or software I2C and run CircuitPython 6.2.
 
 This module is intended to make using the 24x256/512 as simple as possible. It has the following functions:
-- Write a value (range 0-255) to a SRAM address (range 0-2047)
-- Read a value from an SRAM address (range 0-2047), values are returned as integers
-And that's it.
+- Write a value (range 0-255) to an EEPROM address (range 0-32767 for the 24x256, 0-65535 for the 24x512)
+- Read a value from an EEPROM address, values are returned as integers (range 0-255)
+- And that's it.
 
 Author: mark@marksbench.com
 
@@ -14,7 +14,7 @@ Version: 0.1, 2021-06-01
 
 **NOTE(2): You must call i2c.try_lock() and i2c.unlock() each time you call this driver. Make sure no other devices have the I2C bus locked when using the 24x256/512.
 
-**NOTE(3): This driver is intended to be as simple as possible to use. As a result it does byte writes instead of page writes. That means that each time you write a byte, the entire page is re-written in the EEPROM. This can/will wear the EEPROM significantly faster than doing a page write. Other options are sequential writes or saving data in RAM and writing them 128 bytes at a time.
+**NOTE(3): This driver is intended to be as simple as possible to use. As a result it does byte writes instead of page writes. *That means that each time you write a byte, the entire page is re-written in the EEPROM. This can/will wear the EEPROM significantly faster than doing a page write.* Other options are sequential writes or page writes, but they are not part of this driver.
 
 **NOTE(4): Thanks to KJRC on the Adafruit forums for testing and providing feedback and ideas!
 
